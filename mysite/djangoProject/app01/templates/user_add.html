@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>示例页面</title>
+    <script>
+        // 当文档加载完成后执行的函数
+        window.onload = function() {
+            // 获取id为'myButton'的按钮元素
+            var button = document.getElementById('myButton');
+            // 为按钮添加点击事件监听器
+            button.onclick = function() {
+                // 当按钮被点击时，显示一个警告框
+                alert('按钮被点击了！');
+            };
+        };
+    </script>
+</head>
+<body>
+    <h1>欢迎来到我的网页</h1>
+    <p>这是一个简单的HTML页面示例。</p>
+    <p>点击下面的按钮看看会发生什么。</p>
+    <!-- 创建一个按钮元素 -->
+    <button id="myButton">点击我</button>
+</body>
+</html>

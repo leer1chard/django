@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>动态数据表格</title>
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <script src="/static/js/script.js"></script>
+</head>
+<body>
+
+    <table id="infoTable">
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>薪资</th>
+                <th>职位</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 数据行将被动态插入 -->
+        </tbody>
+    </table>
+
+</body>
+</html>
