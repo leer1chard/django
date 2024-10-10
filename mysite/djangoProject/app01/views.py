@@ -1,35 +1,13 @@
 from django.shortcuts import render, HttpResponse, redirect
 
+from django.contrib.auth import authenticate, login
+
 from .models import UserInfo
 
+from .forms import LoginForm
 
-def index(request):
-    return HttpResponse("欢迎使用")
+from .forms import RegistrationForm
 
-def user_list(request):
-    return render(request, "user_list.html")
-
-def user_add(request):
-    return render(request, "user_add.html")
-
-def tpl(request):
-    name  = "韩超"
-    roles = ["管理员", "CEO" ,"保安"]
-    user_info = {"name": "郭志", "salary":100000, 'role': "CEO"}
-
-    data_list = [
-        {"name": "郭志", "salary": 100000, 'role': "CEO"},
-        {"name": "卢辉", "salary": 100000, 'role': "CEO"},
-        {"name": "赵建先", "salary": 100000, 'role': "CEO"},
-
-    ]
-    return render (request, 'tpl.html', {"n1": name, "n2":roles, "n3":user_info, "n4":data_list})
-
-def something(request):
-    print(request.method)
-    print(request.GET)
-    print(request.POST)
-    return redirect("www.baidu.com")
 
 def info_list(request):
     data_list = UserInfo.objects.all()
@@ -49,3 +27,34 @@ def info_delete(request):
     nid=request.GET.get("nid")
     UserInfo.objects.filter(id=nid).delete()
     return redirect("http://127.0.0.1:8000/info/list/")
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('info_list')
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
+
+def home(request):
+    return render(request, 'home.html')
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # 注册后自动登录
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
+            if user is not None:
+                login(request, user)
+                return redirect('info_list')
+    else:
+        form = RegistrationForm()
+    return render(request, 'register.html', {'form': form})
